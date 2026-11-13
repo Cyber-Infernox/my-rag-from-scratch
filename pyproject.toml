@@ -1,0 +1,27 @@
+[project]
+name = "my-rag-from-scratch"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Cyber_Infernox", email = "sayonkar@gmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "chromadb>=1.5.9",
+    "faiss-cpu>=1.16.0",
+    "ipykernel>=7.4.0",
+    "langchain>=1.4.10",
+    "langchain-community>=0.4.2",
+    "langchain-core>=1.7.7",
+    "pymupdf>=2.1",
+    "pypdf>=7.0.1",
+    "sentence-transformers>=6.3.0",
+]
+
+[project.scripts]
+my-rag-from-scratch = "my_rag_from_scratch:main"
+
+[build-system]
+requires = ["uv_build>=0.12.17,<0.13.0"]
+build-backend = "uv_build"
