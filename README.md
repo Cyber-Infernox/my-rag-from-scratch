@@ -1,13 +1,3 @@
-# my-rag-from-scratch
-Learning RAG from scratch
-
-Setup Commands -
-uv init
-uv venv
-.venv\Scripts\activate
-uv add ipykernel
-uv add -r requirements.txt
-
 # 🚀 My RAG From Scratch
 
 **A hands-on journey to understanding and building Retrieval-Augmented Generation (RAG) systems from scratch using Python.**
@@ -42,7 +32,7 @@ This repository is organized as a step-by-step learning journey.
 - [x] Understanding the fundamentals of RAG
 - [x] Setting up the Python development environment using UV
 - [x] Working with Jupyter Notebooks in VS Code
-- [x] Understanding document loading and PDF reading
+- [x] Understanding PDF reading and document loading
 
 *More topics and implementations will be added as the learning journey progresses.*
 
@@ -53,7 +43,7 @@ This repository is organized as a step-by-step learning journey.
 | Technology | Purpose |
 |---|---|
 | Python | Primary programming language |
-| UV | Python project and dependency management |
+| UV | Python package and virtual environment management |
 | Jupyter Notebook | Interactive learning and experimentation |
 | VS Code | Development environment |
 | LangChain | Framework for working with LLM applications and document processing |
@@ -63,7 +53,7 @@ This repository is organized as a step-by-step learning journey.
 | FAISS | Vector similarity search |
 | ChromaDB | Vector database |
 
-*Note: The tools listed above are project dependencies and technologies being explored. Not all are necessarily covered in the current notebooks.*
+*Note: These are the technologies and libraries included in or explored through the project. Their implementation will be documented as the project progresses.*
 
 ---
 
@@ -73,10 +63,10 @@ This repository is organized as a step-by-step learning journey.
 my-rag-from-scratch/
 │
 ├── data/
-│   └──                 # Documents and other learning resources
+│                       # Documents and other learning resources
 │
 ├── notebook/
-│   └──                 # Jupyter notebooks for learning and experimentation
+│                       # Jupyter notebooks for learning and experimentation
 │
 ├── src/
 │   └── my_rag_from_scratch/
@@ -105,7 +95,7 @@ Make sure you have the following installed:
 - [UV](https://docs.astral.sh/uv/getting-started/installation/)
 - [Visual Studio Code](https://code.visualstudio.com/)
 
-Verify your installations:
+Verify the installations:
 
 ```powershell
 python --version
@@ -124,21 +114,25 @@ Navigate to the project directory:
 cd my-rag-from-scratch
 ```
 
-### 2. Set Up the Environment
+### 2. Initialize the UV Project
 
-Install all project dependencies using:
+Initialize the Python project using:
 
 ```bash
-uv sync
+uv init
 ```
 
-This command automatically:
+This creates the necessary project configuration files, including `pyproject.toml`.
 
-- Creates a `.venv` virtual environment if it doesn't exist.
-- Installs the dependencies specified in `pyproject.toml`.
-- Synchronizes the environment using `uv.lock`.
+### 3. Create a Virtual Environment
 
-### 3. Activate the Virtual Environment (Optional)
+```bash
+uv venv
+```
+
+This creates a virtual environment named `.venv` inside the project directory.
+
+### 4. Activate the Virtual Environment
 
 For Windows PowerShell:
 
@@ -152,11 +146,38 @@ For Windows Command Prompt:
 .venv\Scripts\activate.bat
 ```
 
-You can also execute Python commands without manually activating the environment by using `uv run`.
+### 5. Install IPython Kernel
+
+```bash
+uv add ipykernel
+```
+
+This installs IPython Kernel, allowing the project's virtual environment to be used with Jupyter Notebooks.
+
+### 6. Install Project Dependencies
+
+```bash
+uv add -r requirements.txt
+```
+
+This installs the Python packages listed in `requirements.txt` and adds them to the project's dependency configuration.
+
+UV also updates the `pyproject.toml` and `uv.lock` files.
+
+### 7. Verify the Setup
+
+```bash
+python --version
+uv pip list
+```
+
+Your Python development environment is now ready!
 
 ---
 
 ## 📓 Setting Up Jupyter Notebook in VS Code
+
+Follow these steps to run Jupyter Notebooks using the project's virtual environment.
 
 ### Step 1: Install VS Code Extensions
 
@@ -177,9 +198,9 @@ code .
 
 1. Press `Ctrl + Shift + P`.
 2. Search for `Python: Select Interpreter`.
-3. Select the interpreter inside your project's `.venv` directory.
+3. Select the Python interpreter inside your project's `.venv` directory.
 
-Expected path:
+Expected interpreter path:
 
 ```text
 .venv\Scripts\python.exe
@@ -198,9 +219,9 @@ You can also create a new notebook using:
 1. Open the notebook.
 2. Click **Select Kernel** in the top-right corner.
 3. Select **Python Environments**.
-4. Choose the interpreter from your project's `.venv`.
+4. Choose the Python interpreter from your project's `.venv` directory.
 
-You are now ready to execute notebook cells!
+You are now ready to execute Jupyter Notebook cells inside VS Code!
 
 ---
 
@@ -210,23 +231,36 @@ An important part of building a RAG system is understanding how to load and extr
 
 Since PDFs are a common source of knowledge for RAG applications, this stage explores PDF processing using Python libraries.
 
-### Libraries
+### Libraries Explored
 
 - **PyPDF** – Reading PDF documents and extracting their text.
 - **PyMuPDF** – Working with PDF documents and extracting their contents.
 
-The objective is to understand how information stored in PDF documents can be accessed and prepared for subsequent stages of a RAG pipeline.
+### Learning Objective
+
+Understand how information stored in PDF documents can be accessed and extracted using Python, preparing the way for subsequent stages of a RAG pipeline.
 
 ---
 
 ## 📝 Development Notes
 
-- New dependencies should be added using `uv add <package-name>`.
-- Development-only dependencies can be added using `uv add --dev <package-name>`.
-- Run `uv sync` after updating project dependencies.
+- Use `uv add <package-name>` to install new project dependencies.
+- Use `uv add --dev <package-name>` for development-only dependencies.
+- Run `uv sync` whenever dependencies change or when setting up the project on a new machine.
 - Keep `pyproject.toml` and `uv.lock` committed to Git.
 - Do not commit the `.venv` directory.
 - Never commit API keys, passwords, or other sensitive credentials.
+- Keep notebooks organized so that the learning sequence is easy to follow.
+
+### Setting Up an Existing Clone
+
+Once the project has been initialized and its configuration files have been committed to GitHub, anyone cloning the repository can simply run:
+
+```bash
+uv sync
+```
+
+This automatically creates the virtual environment if necessary and installs the dependencies recorded in the project configuration and lockfile.
 
 ---
 
