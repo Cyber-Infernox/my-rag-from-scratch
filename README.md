@@ -1,277 +1,147 @@
-# 🚀 My RAG From Scratch
+# My RAG From Scratch
 
-**A hands-on journey to understanding and building Retrieval-Augmented Generation (RAG) systems from scratch using Python.**
+A hands-on project to understand and implement Retrieval-Augmented Generation (RAG) from scratch using Python.
 
-This repository documents my learning journey as I explore the fundamentals of RAG, understand its individual components, and gradually work towards building a complete RAG pipeline.
+The project is currently centered on one Jupyter notebook. It demonstrates document loading, text splitting, embeddings, ChromaDB storage and retrieval, and optional answer generation with Groq. The PDF is loaded as a separate example; the current vector retrieval flow indexes the text files.
 
-The goal is not just to use existing frameworks, but to understand what's happening behind the scenes at every stage.
+## What is RAG?
 
----
+Retrieval-Augmented Generation (RAG) retrieves relevant information from a document collection and provides it to a language model as context for answering a question. This lets a model use information from documents that was not part of its training data.
 
-## 📖 What is RAG?
+## Technologies
 
-**Retrieval-Augmented Generation (RAG)** is a technique that enhances Large Language Models (LLMs) by providing them with relevant external information before generating a response.
+- Python 3.12+
+- UV for dependency and virtual-environment management
+- Jupyter Notebook and VS Code
+- LangChain document loaders, document types, and text splitters
+- PyMuPDF for loading PDF files
+- Sentence Transformers for embeddings
+- ChromaDB for persistent vector storage and retrieval
+- Groq via LangChain for the optional LLM response examples
 
-Instead of relying entirely on the knowledge learned during training, a RAG system retrieves relevant information from an external knowledge source and uses it as context to generate more accurate and relevant answers.
-
-### Why RAG?
-
-- Provides LLMs with access to external and domain-specific knowledge.
-- Helps reduce hallucinations by grounding responses in retrieved information.
-- Allows knowledge to be updated without retraining the LLM.
-- Enables question-answering over custom documents and datasets.
-
----
-
-## 🎯 Learning Roadmap
-
-This repository is organized as a step-by-step learning journey.
-
-### Current Progress
-
-- [x] Understanding the fundamentals of RAG
-- [x] Setting up the Python development environment using UV
-- [x] Working with Jupyter Notebooks in VS Code
-- [x] Understanding PDF reading and document loading
-
-*More topics and implementations will be added as the learning journey progresses.*
-
----
-
-## 🛠️ Tech Stack
-
-| Technology | Purpose |
-|---|---|
-| Python | Primary programming language |
-| UV | Python package and virtual environment management |
-| Jupyter Notebook | Interactive learning and experimentation |
-| VS Code | Development environment |
-| LangChain | Framework for working with LLM applications and document processing |
-| PyPDF | PDF reading and text extraction |
-| PyMuPDF | PDF processing and text extraction |
-| Sentence Transformers | Text embedding models |
-| FAISS | Vector similarity search |
-| ChromaDB | Vector database |
-
-*Note: These are the technologies and libraries included in or explored through the project. Their implementation will be documented as the project progresses.*
-
----
-
-## 📂 Project Structure
+## Project structure
 
 ```text
 my-rag-from-scratch/
-│
 ├── data/
-│                       # Documents and other learning resources
-│
+│   ├── pdf_files/
+│   │   └── sample.pdf
+│   └── text_files/
+│       ├── machine_learning.txt
+│       └── python_intro.txt
 ├── notebook/
-│                       # Jupyter notebooks for learning and experimentation
-│
+│   └── document.ipynb
 ├── src/
 │   └── my_rag_from_scratch/
-│                       # Python source code
-│
+│       └── __init__.py
+├── .env.example
 ├── .gitignore
 ├── .python-version
 ├── LICENSE
-├── README.md
 ├── pyproject.toml
-├── requirements.txt
+├── README.md
 └── uv.lock
 ```
 
----
+The notebook creates `data/vector_store/` when it runs. The vector database and the local `.venv/` are generated files and are not tracked by Git.
 
-## ⚙️ Environment Setup
+## Prerequisites
 
-This project uses **UV** for Python package and virtual environment management.
+- Python 3.12 or newer
+- Git
+- UV
+- Visual Studio Code
 
-### Prerequisites
+The notebook downloads the `all-MiniLM-L6-v2` embedding model the first time it is used, so an internet connection is needed. The final Groq-backed cells additionally require a Groq API key and network access to the Groq service. The document-loading, embedding, and retrieval examples do not require that API key.
 
-Make sure you have the following installed:
+## Install UV on Windows
 
-- [Python 3.12 or newer](https://www.python.org/downloads/)
-- [UV](https://docs.astral.sh/uv/getting-started/installation/)
-- [Visual Studio Code](https://code.visualstudio.com/)
-
-Verify the installations:
+In PowerShell, install UV with WinGet:
 
 ```powershell
-python --version
+winget install --id=astral-sh.uv -e
+```
+
+Open a new PowerShell terminal, then verify the installation:
+
+```powershell
 uv --version
 ```
 
-### 1. Clone the Repository
+For other installation options and operating systems, see the [official UV installation guide](https://docs.astral.sh/uv/getting-started/installation/).
 
-```bash
-git clone https://github.com/Cyber-Infernox/my-rag-from-scratch.git
-```
+## Clone the repository and install dependencies
 
-Navigate to the project directory:
-
-```bash
-cd my-rag-from-scratch
-```
-
-### 2. Initialize the UV Project
-
-Initialize the Python project using:
-
-```bash
-uv init
-```
-
-This creates the necessary project configuration files, including `pyproject.toml`.
-
-### 3. Create a Virtual Environment
-
-```bash
-uv venv
-```
-
-This creates a virtual environment named `.venv` inside the project directory.
-
-### 4. Activate the Virtual Environment
-
-For Windows PowerShell:
+In PowerShell:
 
 ```powershell
-.venv\Scripts\Activate.ps1
-```
-
-For Windows Command Prompt:
-
-```cmd
-.venv\Scripts\activate.bat
-```
-
-### 5. Install IPython Kernel
-
-```bash
-uv add ipykernel
-```
-
-This installs IPython Kernel, allowing the project's virtual environment to be used with Jupyter Notebooks.
-
-### 6. Install Project Dependencies
-
-```bash
-uv add -r requirements.txt
-```
-
-This installs the Python packages listed in `requirements.txt` and adds them to the project's dependency configuration.
-
-UV also updates the `pyproject.toml` and `uv.lock` files.
-
-### 7. Verify the Setup
-
-```bash
-python --version
-uv pip list
-```
-
-Your Python development environment is now ready!
-
----
-
-## 📓 Setting Up Jupyter Notebook in VS Code
-
-Follow these steps to run Jupyter Notebooks using the project's virtual environment.
-
-### Step 1: Install VS Code Extensions
-
-Open VS Code and install the following extensions:
-
-1. **Python** – Microsoft
-2. **Jupyter** – Microsoft
-
-### Step 2: Open the Project
-
-Open the repository in VS Code:
-
-```bash
-code .
-```
-
-### Step 3: Select the Python Interpreter
-
-1. Press `Ctrl + Shift + P`.
-2. Search for `Python: Select Interpreter`.
-3. Select the Python interpreter inside your project's `.venv` directory.
-
-Expected interpreter path:
-
-```text
-.venv\Scripts\python.exe
-```
-
-### Step 4: Open a Jupyter Notebook
-
-Navigate to the `notebook/` directory and open an existing `.ipynb` file.
-
-You can also create a new notebook using:
-
-`File → New File → Jupyter Notebook`
-
-### Step 5: Select the Jupyter Kernel
-
-1. Open the notebook.
-2. Click **Select Kernel** in the top-right corner.
-3. Select **Python Environments**.
-4. Choose the Python interpreter from your project's `.venv` directory.
-
-You are now ready to execute Jupyter Notebook cells inside VS Code!
-
----
-
-## 📄 Current Learning: PDF Reading
-
-An important part of building a RAG system is understanding how to load and extract information from documents.
-
-Since PDFs are a common source of knowledge for RAG applications, this stage explores PDF processing using Python libraries.
-
-### Libraries Explored
-
-- **PyPDF** – Reading PDF documents and extracting their text.
-- **PyMuPDF** – Working with PDF documents and extracting their contents.
-
-### Learning Objective
-
-Understand how information stored in PDF documents can be accessed and extracted using Python, preparing the way for subsequent stages of a RAG pipeline.
-
----
-
-## 📝 Development Notes
-
-- Use `uv add <package-name>` to install new project dependencies.
-- Use `uv add --dev <package-name>` for development-only dependencies.
-- Run `uv sync` whenever dependencies change or when setting up the project on a new machine.
-- Keep `pyproject.toml` and `uv.lock` committed to Git.
-- Do not commit the `.venv` directory.
-- Never commit API keys, passwords, or other sensitive credentials.
-- Keep notebooks organized so that the learning sequence is easy to follow.
-
-### Setting Up an Existing Clone
-
-Once the project has been initialized and its configuration files have been committed to GitHub, anyone cloning the repository can simply run:
-
-```bash
+git clone https://github.com/Cyber-Infernox/my-rag-from-scratch.git
+Set-Location my-rag-from-scratch
 uv sync
 ```
 
-This automatically creates the virtual environment if necessary and installs the dependencies recorded in the project configuration and lockfile.
+`uv sync` creates `.venv/` if needed and installs the dependencies from `pyproject.toml` using the committed `uv.lock`. These files are the dependency source of truth; do not run `uv init` in this existing project.
 
----
+## Open in VS Code and configure Python
 
-## 📌 Repository Status
+Open the repository from its root:
 
-This is an ongoing learning project. The README and notebooks will be updated as I explore additional RAG concepts and implement new components.
+```powershell
+code .
+```
 
-**Learn → Experiment → Implement → Understand.**
+If the `code` command is unavailable, open VS Code and use **File > Open Folder** to select the cloned repository.
 
----
+Install the Microsoft **Python** and **Jupyter** extensions. You can also install them from PowerShell:
 
-## 📜 License
+```powershell
+code --install-extension ms-python.python
+code --install-extension ms-toolsai.jupyter
+```
+
+Select the project interpreter:
+
+1. Press `Ctrl+Shift+P`.
+2. Run **Python: Select Interpreter**.
+3. Choose `.venv\Scripts\python.exe`.
+
+Open `notebook/document.ipynb`. Use **Select Kernel** in the notebook toolbar and choose the Python environment that points to the same `.venv`.
+
+## Notebook execution order
+
+There is one notebook, `notebook/document.ipynb`; there are no other notebooks to run first. Restart its kernel and run all cells from top to bottom, in the order displayed. The notebook proceeds through:
+
+1. Creating a LangChain `Document` example.
+2. Writing the sample text files under `data/text_files/`.
+3. Loading a text file and then the text-file directory.
+4. Loading the sample PDF into a separate variable.
+5. Defining the text splitter.
+6. Initializing the embedding model and ChromaDB vector store.
+7. Splitting and embedding the text documents and adding them to ChromaDB.
+8. Defining and using the retriever.
+9. Configuring Groq and running the simple and advanced RAG examples.
+
+The notebook uses paths such as `../data/text_files`, so its working directory must be the repository's `notebook/` directory. If a data file is reported missing, check the notebook's working directory before changing the paths.
+
+To run the Groq examples, create a local `.env` file from the template if one does not already exist:
+
+```powershell
+if (-not (Test-Path .env)) {
+    Copy-Item .env.example .env
+}
+```
+
+Replace the placeholder `GROQ_API_KEY` value in `.env`, or keep the key already present there. Do not overwrite an existing `.env`, commit it, or paste a real key into a notebook cell or notebook output. The `.env` file is ignored by Git.
+
+## Troubleshooting
+
+- **`uv` is not recognized:** Open a new terminal after installing UV, then check `uv --version`.
+- **A Python package cannot be imported:** From the repository root, run `uv sync`, then select `.venv\Scripts\python.exe` as both the VS Code interpreter and notebook kernel.
+- **A data file cannot be found:** Confirm the notebook's working directory is `notebook/`; its relative paths start with `../data`.
+- **The embedding model cannot load:** Check your internet connection and rerun the model-loading cell. The first run downloads the model.
+- **Groq reports a missing API key:** If `.env` does not exist, create it from `.env.example`; otherwise update the existing file. Enter a valid `GROQ_API_KEY` and restart the notebook kernel before running the Groq cells.
+- **You want a fresh vector store:** Stop the notebook kernel and remove the generated `data/vector_store/` directory before running the notebook again. It will be recreated from the notebook's current input documents.
+
+## License
 
 This project is licensed under the [MIT License](LICENSE).

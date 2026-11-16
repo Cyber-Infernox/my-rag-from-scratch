@@ -167,7 +167,7 @@ cython_debug/
 .abstra/
 
 # Visual Studio Code
-# .vscode/
+.vscode/
 
 # Temporary file for partial code execution
 tempCodeRunnerFile.py
