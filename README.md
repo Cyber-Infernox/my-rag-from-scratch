@@ -142,6 +142,10 @@ Replace the placeholder `GROQ_API_KEY` value in `.env`, or keep the key already 
 - **Groq reports a missing API key:** If `.env` does not exist, create it from `.env.example`; otherwise update the existing file. Enter a valid `GROQ_API_KEY` and restart the notebook kernel before running the Groq cells.
 - **You want a fresh vector store:** Stop the notebook kernel and remove the generated `data/vector_store/` directory before running the notebook again. It will be recreated from the notebook's current input documents.
 
+## Contributing
+
+Contributions and pull requests are welcome.
+
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
